@@ -1,0 +1,14 @@
+.checked {
+  text-decoration: line-through;
+  color: #AAAAAA;
+}
+
+ion-footer-bar.bar.bar-large {
+  height: 55px;
+}
+ion-footer-bar.bar.bar-large .item-input-wrapper input {
+  height: 35px;
+}
+ion-footer-bar.bar.bar-large button {
+  padding: 0px 0px 0px 10px;
+}
