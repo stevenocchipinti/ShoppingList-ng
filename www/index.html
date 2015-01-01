@@ -36,7 +36,7 @@
       <ion-content>
         <ion-list show-delete="data.showDelete" >
           <ion-item
-            ng-repeat="item in items | orderBy:'checked'"
+            ng-repeat="item in items track by item.title | orderBy:'checked'"
             ng-click="item.checked = !item.checked"
             ng-class="{checked : item.checked}"
             class="item-remove-animate"
