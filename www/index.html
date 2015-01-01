@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>Shopping List</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -11,6 +11,8 @@
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
+
+    <script src="lib/jquery-1.11.2.min.js"></script>
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -39,7 +41,9 @@
             ng-class="{checked : item.checked}"
             class="item-remove-animate"
           >
-          <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(item)"></ion-delete-button>
+          <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(item)">
+          </ion-delete-button>
+
             {{item.title}}
 
             <ion-option-button class="button-positive">
@@ -54,9 +58,20 @@
 
       <ion-footer-bar align-title="left" class="bar-large bar-dark item-input-inset">
         <label class="item-input-wrapper">
-          <input ng-model="newItem" id="newItem" ng-keyup="$event.keyCode == 13 && addItem()" type="text" placeholder="Add item">
+          <input
+            id="newItem"
+            type="text"
+            ng-model="newItem"
+            ng-keyup="$event.keyCode == 13 && addItem()"
+            placeholder="Add item">
+          </input>
         </label>
-        <button ng-click="addItem()" class="button-clear button-icon icon ion-plus"></button>
+
+        <button
+          id="addItem"
+          ng-click="addItem()"
+          class="button-clear button-icon icon ion-plus">
+        </button>
       </ion-footer-bar>
 
     </ion-pane>

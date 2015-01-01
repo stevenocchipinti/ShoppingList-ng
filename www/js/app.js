@@ -12,6 +12,19 @@ angular.module('shoppinglist', ['ionic'])
 }])
 
 .controller('ShoppingListCtrl', function($scope, Item) {
+  // Prevent the soft keyboard from disappearing when clicking the "+" button
+  // ref: https://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
+  var clickedAddButton = false;
+  $('#newItem').blur(function() {
+    if (clickedAddButton) {
+      $('#newItem').focus();
+      clickedAddButton = false;
+    }
+  });
+  $('#addItem').click(function() {
+    clickedAddButton = true;
+  });
+
   $scope.items = [];
 
   $scope.addItem = function() {
@@ -19,7 +32,6 @@ angular.module('shoppinglist', ['ionic'])
       { title: $scope.newItem, checked: false }
     );
     $scope.newItem = "";
-    $('#newItem').focus();
   };
 
   $scope.clearDone = function() {
