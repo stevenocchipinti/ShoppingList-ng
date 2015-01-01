@@ -1,3 +1,7 @@
+ion-item {
+  line-height: 15px;
+}
+
 .checked {
   text-decoration: line-through;
   color: #AAAAAA;
