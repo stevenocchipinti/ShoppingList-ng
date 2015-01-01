@@ -27,22 +27,18 @@
     <ion-pane>
 
       <ion-header-bar class="bar-dark">
-        <button class="button icon ion-ios7-minus-outline" 
-          ng-click="data.showDelete = !data.showDelete"></button>
         <h1 class="title">Shopping List</h1>
         <button ng-click="clearDone()" class="button icon ion-flash"></button>
       </ion-header-bar>
 
       <ion-content>
-        <ion-list show-delete="data.showDelete" >
+        <ion-list>
           <ion-item
             ng-repeat="item in items track by item.title | orderBy:'checked'"
             ng-click="item.checked = !item.checked"
             ng-class="{checked : item.checked}"
             class="item-remove-animate"
           >
-          <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(item)">
-          </ion-delete-button>
 
             {{item.title}}
 

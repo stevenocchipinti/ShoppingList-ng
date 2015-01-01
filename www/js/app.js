@@ -30,14 +30,6 @@ angular.module('shoppinglist', ['ionic'])
     });
   };
 
-  // Make those fancy delete buttons
-  $scope.onItemDelete = function(item) {
-    $scope.items.splice($scope.items.indexOf(item), 1);
-  };
-  $scope.data = {
-    showDelete: false
-  };
-
   // Prevent the soft keyboard from disappearing when clicking the "+" button
   // ref: https://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
   var clickedAddButton = false;
