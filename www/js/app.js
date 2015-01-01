@@ -9,12 +9,18 @@ angular.module('shoppinglist', ['ionic'])
 
   // Add a new item to the list
   $scope.addItem = function() {
-    if ($scope.items.map(function(x) { return x.title }).indexOf($scope.newItem) == -1) {
+    var newItemName = $scope.newItem.capitalize();
+    if (!newItemName.isEmpty() && !$scope.exists(newItemName)) {
       $scope.items.push(
-        { title: $scope.newItem, checked: false }
+        { title: newItemName, checked: false }
       );
     }
     $scope.newItem = "";
+  };
+
+  // Check if item exists
+  $scope.exists = function(title) {
+    return $scope.items.map(function(x) { return x.title }).indexOf(title) >= 0;
   };
 
   // Clear all those ticked off items
@@ -45,3 +51,12 @@ angular.module('shoppinglist', ['ionic'])
     clickedAddButton = true;
   });
 })
+
+
+String.prototype.capitalize = function() {
+    return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
+
+String.prototype.isEmpty = function() {
+    return (this.length === 0 || !this.trim());
+};
