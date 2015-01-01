@@ -1,33 +1,39 @@
 angular.module('shoppinglist', ['ionic'])
 
-.controller('ShoppingListCtrl', function($scope, $window) {
-  // Get the items from localstorage and save them back when they change
-  $scope.items = JSON.parse($window.localStorage['items'] || '[]');
-  $scope.$watch('items', function(updatedItems) {
-    $window.localStorage['items'] = JSON.stringify(updatedItems);
-  }, true);
-
-  // Add a new item to the list
-  $scope.addItem = function() {
-    var newItemName = $scope.newItem.capitalize();
-    if (!newItemName.isEmpty() && !$scope.exists(newItemName)) {
-      $scope.items.push(
-        { title: newItemName, checked: false }
-      );
+.factory('ShoppingList', function($window, $rootScope) {
+  var shoppingList = {
+    items: angular.fromJson($window.localStorage['items'] || '[]'),
+    add: function(title) {
+      title = title.capitalize();
+      if (!title.isEmpty() && !this.exists(title)) {
+        this.items.push({
+          title: title,
+          checked: false
+        });
+      }
+    },
+    exists: function(title) {
+      return this.items.map(function(x) { return x.title }).indexOf(title) >= 0;
+    },
+    clearDone: function() {
+      this.items = this.items.filter(function(item) { return !item.checked });
     }
+  };
+
+  $rootScope.$watch(function() {return shoppingList}, function() {
+    $window.localStorage['items'] = angular.toJson(shoppingList.items);
+  }, true)
+
+  return shoppingList;
+})
+
+
+.controller('ShoppingListCtrl', function($scope, ShoppingList) {
+  $scope.shoppingList = ShoppingList;
+
+  $scope.addItem = function() {
+    ShoppingList.add($scope.newItem);
     $scope.newItem = "";
-  };
-
-  // Check if item exists
-  $scope.exists = function(title) {
-    return $scope.items.map(function(x) { return x.title }).indexOf(title) >= 0;
-  };
-
-  // Clear all those ticked off items
-  $scope.clearDone = function() {
-    $scope.items = $scope.items.filter(function(item) {
-      return !item.checked
-    });
   };
 
   // Prevent the soft keyboard from disappearing when clicking the "+" button
