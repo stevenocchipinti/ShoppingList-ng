@@ -1,8 +1,35 @@
 angular.module('shoppinglist', ['ionic'])
 
-.factory('ShoppingList', function($window, $rootScope) {
+.factory('Catalogue', function($window, $rootScope) {
+  var catalogue = {
+    items: angular.fromJson($window.localStorage['catalogue'] || '[]'),
+    add: function(title) {
+      title = title.capitalize();
+      if (!title.isEmpty() && !this.exists(title)) {
+        this.items.push({
+          title: title
+        });
+      }
+    },
+    titles: function() {
+      return this.items.map(function(x) { return x.title });
+    },
+    exists: function(title) {
+      return this.titles().indexOf(title) >= 0;
+    }
+  };
+
+  $rootScope.$watch(function() {return catalogue}, function() {
+    $window.localStorage['catalogue'] = angular.toJson(catalogue.items);
+  }, true)
+
+  return catalogue;
+})
+
+
+.factory('ShoppingList', function($window, $rootScope, Catalogue) {
   var shoppingList = {
-    items: angular.fromJson($window.localStorage['items'] || '[]'),
+    items: angular.fromJson($window.localStorage['shoppingList'] || '[]'),
     add: function(title) {
       title = title.capitalize();
       if (!title.isEmpty() && !this.exists(title)) {
@@ -10,6 +37,7 @@ angular.module('shoppinglist', ['ionic'])
           title: title,
           checked: false
         });
+        Catalogue.add(title);
       }
     },
     exists: function(title) {
@@ -21,14 +49,14 @@ angular.module('shoppinglist', ['ionic'])
   };
 
   $rootScope.$watch(function() {return shoppingList}, function() {
-    $window.localStorage['items'] = angular.toJson(shoppingList.items);
+    $window.localStorage['shoppingList'] = angular.toJson(shoppingList.items);
   }, true)
 
   return shoppingList;
 })
 
 
-.controller('ShoppingListCtrl', function($scope, ShoppingList) {
+.controller('ShoppingListCtrl', function($scope, ShoppingList, Catalogue) {
   $scope.shoppingList = ShoppingList;
   var newItemElm = $('#newItem');
 
@@ -56,16 +84,7 @@ angular.module('shoppinglist', ['ionic'])
 
 
   $scope.$watch('newItem', function(text) {
-    var suggestions = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-      'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-      'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-      'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-      'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-      'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-      'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-      'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-      'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    ];
+    var suggestions = Catalogue.titles();
     $scope.suggestions = [];
 
     if (text && !text.isEmpty()) {
