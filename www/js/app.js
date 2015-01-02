@@ -40,8 +40,11 @@ angular.module('shoppinglist', ['ionic'])
         Catalogue.add(name);
       }
     },
+    names: function() {
+      return this.items.map(function(x) { return x.name });
+    },
     exists: function(name) {
-      return this.items.map(function(x) { return x.name }).indexOf(name) >= 0;
+      return this.names().indexOf(name) >= 0;
     },
     clearDone: function() {
       this.items = this.items.filter(function(item) { return !item.checked });

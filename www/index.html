@@ -8,10 +8,6 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
     <script src="lib/jquery-1.11.2.min.js"></script>
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="cordova.js"></script>
@@ -38,12 +34,6 @@
 
             {{item.name}}
 
-            <ion-option-button class="button-positive">
-              <i class="icon ion-edit"></i>
-            </ion-option-button>
-            <ion-reorder-button class="ion-navicon"
-              on-reorder="moveItem(item, $fromIndex, $toIndex)">
-            </ion-reorder-button>
           </ion-item>
         </ion-list>
       </ion-content>
