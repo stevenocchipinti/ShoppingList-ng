@@ -3,19 +3,19 @@ angular.module('shoppinglist', ['ionic'])
 .factory('Catalogue', function($window, $rootScope) {
   var catalogue = {
     items: angular.fromJson($window.localStorage['catalogue'] || '[]'),
-    add: function(title) {
-      title = title.capitalize();
-      if (!title.isEmpty() && !this.exists(title)) {
+    add: function(name) {
+      name = name.capitalize();
+      if (!name.isEmpty() && !this.exists(name)) {
         this.items.push({
-          title: title
+          name: name
         });
       }
     },
-    titles: function() {
-      return this.items.map(function(x) { return x.title });
+    names: function() {
+      return this.items.map(function(x) { return x.name });
     },
-    exists: function(title) {
-      return this.titles().indexOf(title) >= 0;
+    exists: function(name) {
+      return this.names().indexOf(name) >= 0;
     }
   };
 
@@ -30,18 +30,18 @@ angular.module('shoppinglist', ['ionic'])
 .factory('ShoppingList', function($window, $rootScope, Catalogue) {
   var shoppingList = {
     items: angular.fromJson($window.localStorage['shoppingList'] || '[]'),
-    add: function(title) {
-      title = title.capitalize();
-      if (!title.isEmpty() && !this.exists(title)) {
+    add: function(name) {
+      name = name.capitalize();
+      if (!name.isEmpty() && !this.exists(name)) {
         this.items.push({
-          title: title,
+          name: name,
           checked: false
         });
-        Catalogue.add(title);
+        Catalogue.add(name);
       }
     },
-    exists: function(title) {
-      return this.items.map(function(x) { return x.title }).indexOf(title) >= 0;
+    exists: function(name) {
+      return this.items.map(function(x) { return x.name }).indexOf(name) >= 0;
     },
     clearDone: function() {
       this.items = this.items.filter(function(item) { return !item.checked });
@@ -65,6 +65,23 @@ angular.module('shoppinglist', ['ionic'])
     $scope.newItem = "";
   };
 
+  $scope.$watch('newItem', function(text) {
+    var suggestions = Catalogue.names();
+    $scope.suggestions = [];
+
+    if (text && !text.isEmpty()) {
+      var matches = [];
+      var substrRegex = new RegExp(text, 'i');
+      $.each(suggestions, function(i, str) {
+        if (substrRegex.test(str)) {
+          matches.push(str);
+        }
+      });
+      $scope.suggestions = matches;
+    }
+  });
+
+
   // Prevent the soft keyboard from disappearing when clicking the "+" button
   // ref: https://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
   var clickedAddButton = false;
@@ -80,23 +97,6 @@ angular.module('shoppinglist', ['ionic'])
   });
   $('.tt-dropdown-menu').click(function() {
     clickedAddButton = true;
-  });
-
-
-  $scope.$watch('newItem', function(text) {
-    var suggestions = Catalogue.titles();
-    $scope.suggestions = [];
-
-    if (text && !text.isEmpty()) {
-      var matches = [];
-      var substrRegex = new RegExp(text, 'i');
-      $.each(suggestions, function(i, str) {
-        if (substrRegex.test(str)) {
-          matches.push(str);
-        }
-      });
-      $scope.suggestions = matches;
-    }
   });
 
 })

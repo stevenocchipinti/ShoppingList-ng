@@ -30,13 +30,13 @@
       <ion-content>
         <ion-list>
           <ion-item
-            ng-repeat="item in shoppingList.items | orderBy:['checked','title']"
+            ng-repeat="item in shoppingList.items | orderBy:['checked','name']"
             ng-click="item.checked = !item.checked"
             ng-class="{checked : item.checked}"
             class="item-remove-animate"
           >
 
-            {{item.title}}
+            {{item.name}}
 
             <ion-option-button class="button-positive">
               <i class="icon ion-edit"></i>
