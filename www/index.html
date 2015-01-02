@@ -13,14 +13,9 @@
     -->
 
     <script src="lib/jquery-1.11.2.min.js"></script>
-
-    <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
-    <!-- your app's js -->
     <script src="js/app.js"></script>
   </head>
   <body ng-controller="ShoppingListCtrl">
@@ -53,19 +48,30 @@
       </ion-content>
 
       <ion-footer-bar align-title="left" class="bar-large bar-dark item-input-inset">
-        <label class="item-input-wrapper">
-          <input
-            id="newItem"
-            type="text"
-            ng-model="newItem"
-            ng-keyup="$event.keyCode == 13 && addItem()"
-            placeholder="Add item">
-          </input>
-        </label>
+        <div for="newItem" class="item-input-wrapper">
+          <span
+            class="autocomplete-wrapper"
+            ng-class="{'autocomplete-hidden': suggestions.length == 0}"
+          >
+            <input
+              id="newItem"
+              type="text"
+              class="autocomplete-input"
+              ng-model="newItem"
+              ng-keyup="$event.keyCode == 13 && addItem(newItem)"
+              placeholder="Add item">
+            </input>
+            <span class="autocomplete-suggestions">
+              <div class="autocomplete-suggestion" ng-repeat="suggestion in suggestions">
+                <p ng-click="addItem(suggestion)">{{suggestion}}</p>
+              </div>
+            </span>
+          </span>
+        </div>
 
         <button
           id="addItem"
-          ng-click="addItem()"
+          ng-click="addItem(newItem)"
           class="button icon ion-plus">
         </button>
       </ion-footer-bar>
