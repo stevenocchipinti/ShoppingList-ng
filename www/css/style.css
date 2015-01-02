@@ -23,6 +23,9 @@ ion-footer-bar.bar.bar-large .item-input-wrapper input {
   width: 100%;
 }
 
+autocomplete {
+  width: 100%;
+}
 .autocomplete-wrapper {
   position: relative;
   width: 100%;

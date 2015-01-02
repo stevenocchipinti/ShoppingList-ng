@@ -59,6 +59,14 @@ angular.module('shoppinglist', ['ionic'])
 })
 
 
+.directive('autocomplete', function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'autocomplete.html'
+  };
+})
+
+
 .controller('ShoppingListCtrl', function($scope, ShoppingList, Catalogue) {
   $scope.shoppingList = ShoppingList;
   var newItemElm = $('#newItem');
