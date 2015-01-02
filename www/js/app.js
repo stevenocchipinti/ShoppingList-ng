@@ -66,6 +66,7 @@ angular.module('shoppinglist', ['ionic'])
   $scope.addItem = function(item) {
     ShoppingList.add(item);
     $scope.newItem = "";
+    $scope.$broadcast('autocomplete.preventBlur');
   };
 
   $scope.$watch('newItem', function(text) {
@@ -86,20 +87,17 @@ angular.module('shoppinglist', ['ionic'])
 
 
   // Prevent the soft keyboard from disappearing when clicking the "+" button
+  // or one of the autocomplete suggestions
   // ref: https://stackoverflow.com/questions/7621711/how-to-prevent-blur-running-when-clicking-a-link-in-jquery
-  var clickedAddButton = false;
+  var keepFocus = false;
+  $scope.$on('autocomplete.preventBlur', function() {
+    keepFocus = true;
+  });
   newItemElm.blur(function() {
-    newItemElm.val("");
-    if (clickedAddButton) {
+    if (keepFocus) {
       newItemElm.focus();
-      clickedAddButton = false;
+      keepFocus = false;
     }
-  });
-  $('#addItem').click(function() {
-    clickedAddButton = true;
-  });
-  $('.tt-dropdown-menu').click(function() {
-    clickedAddButton = true;
   });
 
 })
