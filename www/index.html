@@ -39,7 +39,27 @@
       </ion-content>
 
       <ion-footer-bar align-title="left" class="bar-large bar-dark item-input-inset">
-          <autocomplete class="item-input-wrapper"></autocomplete>
+        <div for="newItem" class="item-input-wrapper">
+          <span
+            class="autocomplete-wrapper"
+            ng-class="{'autocomplete-hidden': suggestions.length == 0}"
+          >
+            <input
+              id="newItem"
+              type="text"
+              class="autocomplete-input"
+              ng-model="newItem"
+              ng-keyup="$event.keyCode == 13 && addItem(newItem)"
+              placeholder="Add item">
+            </input>
+            <span class="autocomplete-suggestions">
+              <div class="autocomplete-suggestion" ng-repeat="suggestion in suggestions">
+                <p ng-click="addItem(suggestion)">{{suggestion}}</p>
+              </div>
+            </span>
+          </span>
+        </div>
+
         <button
           id="addItem"
           ng-click="addItem(newItem)"
@@ -48,27 +68,5 @@
       </ion-footer-bar>
 
     </ion-pane>
-
-
-    <script type="text/ng-template" id="autocomplete.html">
-      <span
-        class="autocomplete-wrapper"
-        ng-class="{'autocomplete-hidden': suggestions.length == 0}"
-      >
-        <input
-          id="newItem"
-          type="text"
-          class="autocomplete-input"
-          ng-model="newItem"
-          ng-keyup="$event.keyCode == 13 && addItem(newItem)"
-          placeholder="Add item">
-        </input>
-        <span class="autocomplete-suggestions">
-          <div class="autocomplete-suggestion" ng-repeat="suggestion in suggestions">
-            <p ng-click="addItem(suggestion)">{{suggestion}}</p>
-          </div>
-        </span>
-      </span>
-    </script>
   </body>
 </html>
