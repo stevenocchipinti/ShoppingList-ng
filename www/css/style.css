@@ -13,3 +13,36 @@ ion-footer-bar.bar.bar-large {
 ion-footer-bar.bar.bar-large .item-input-wrapper input {
   height: 35px;
 }
+
+
+.item-input-inset {
+  overflow: visible;
+}
+.item-input-wrapper {
+  padding: 0px;
+  width: 100%;
+}
+
+.autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: inherit;
+  border-radius: 0px 0px 4px 4px;
+}
+.autocomplete-wrapper.autocomplete-hidden {
+  border-radius: 4px 4px 4px 4px;
+}
+.autocomplete-suggestions {
+  bottom: 100%;
+  color: #444;
+  position: absolute;
+  width: 100%;
+  padding: 8px 8px 0px 8px;
+  background-color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px dashed #DDD;
+  border-radius: 4px 4px 0px 0px;
+}
+.autocomplete-hidden .autocomplete-suggestions {
+  display: none;
+}
