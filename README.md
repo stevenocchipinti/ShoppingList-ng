@@ -3,6 +3,8 @@ ShoppingList
 
 A basic shopping list app written with the Ionic hybrid app framework
 
+![Shopping List](https://lh3.googleusercontent.com/k9-xAf2srYOl-iwTrrF4RZSYd83Nd2YF5-8Vr6PhYmY=s320)
+
 
 Getting started
 ----------------
